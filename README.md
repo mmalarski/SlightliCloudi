@@ -13,3 +13,8 @@
    2. API do wysyłania (to springowe)
 3. API pogodowe i lokalizacja
 4. Security
+
+Komenda do uruchamiania dockera:
+    ```docker compose up -d```
+    
+Link do aplikacji: https://slightli-cloudi.herokuapp.com/
