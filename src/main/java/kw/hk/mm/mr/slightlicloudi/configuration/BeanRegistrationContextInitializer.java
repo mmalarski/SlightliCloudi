@@ -1,8 +1,8 @@
 package kw.hk.mm.mr.slightlicloudi.configuration;
 
-
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.lang.NonNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,13 +11,11 @@ public class BeanRegistrationContextInitializer implements ApplicationContextIni
     private final Set<Class<?>> allBeans = new HashSet<>(BeanRegistry.commonBeans);
 
     @Override
-    public void initialize(GenericApplicationContext context) {
+    public void initialize(@NonNull GenericApplicationContext context) {
         allBeans.forEach(bean -> context.registerBean(bean));
     }
 
     protected void register(Class<?> newBean) {
         allBeans.add(newBean);
     }
-
-
 }

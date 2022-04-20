@@ -1,8 +1,6 @@
 package kw.hk.mm.mr.slightlicloudi.configuration;
 
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTFilter;
-import kw.hk.mm.mr.slightlicloudi.user.UserRepository;
-import kw.hk.mm.mr.slightlicloudi.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,13 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(((request, response, authException) -> {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                            authException.getMessage());
-                }))
+                .authenticationEntryPoint(((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        authException.getMessage())))
                 .and()
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
