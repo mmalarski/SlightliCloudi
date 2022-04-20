@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*/secrets.properties
 
 ### STS ###
 .apt_generated
@@ -30,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/secrets.properties
