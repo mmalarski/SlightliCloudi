@@ -26,14 +26,12 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // Get authorization header and validate
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!header.startsWith("Bearer ")) {
+        if (Objects.isNull(header) || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Get jwt token and validate
         final String token = header.split(" ")[1].trim();
         final String username = handler.validateTokenAndRetrieveSubject(token);
         if (Objects.isNull(username)) {
@@ -41,7 +39,6 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Get user identity and set it on the spring security context
         UserDetails userDetails = userService.loadUserByUsername(username);
 
         UsernamePasswordAuthenticationToken
