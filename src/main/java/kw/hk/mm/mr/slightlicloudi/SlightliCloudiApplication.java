@@ -1,13 +1,16 @@
 package kw.hk.mm.mr.slightlicloudi;
 
-import org.springframework.boot.SpringApplication;
+import kw.hk.mm.mr.slightlicloudi.configuration.BeanRegistrationContextInitializer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class SlightliCloudiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SlightliCloudiApplication.class, args);
+        new SpringApplicationBuilder(SlightliCloudiApplication.class)
+                .initializers(new BeanRegistrationContextInitializer())
+                .run(args);
     }
 
 }
