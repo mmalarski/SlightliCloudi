@@ -1,6 +1,7 @@
 package kw.hk.mm.mr.slightlicloudi.user;
 
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTHandler;
+import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,11 @@ public class UserController {
     final AuthenticationManager authenticationManager;
     final JWTHandler tokenHandler;
     final PasswordEncoder passwordEncoder;
+    final WeatherService weatherService;
 
     @GetMapping("/ping")
     public String pong() {
+        weatherService.getWeather("33.44", "-94.04");
         return "Pong";
     }
 
