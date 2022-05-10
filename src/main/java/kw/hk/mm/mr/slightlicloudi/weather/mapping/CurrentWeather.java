@@ -8,8 +8,8 @@ import lombok.Data;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CurrentWeather  {
     private long dt;
-    private Long sunrise;
-    private Long sunset;
+    private long sunrise;
+    private long sunset;
     private double temp;
     private double feelsLike;
     private long pressure;
@@ -22,5 +22,5 @@ public class CurrentWeather  {
     private long windGust;
     private long windDeg;
     private Weather[] weather;
-    private Long pop;
+    private long pop;
 }

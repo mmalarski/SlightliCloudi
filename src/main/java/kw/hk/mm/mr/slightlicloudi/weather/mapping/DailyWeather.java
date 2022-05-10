@@ -24,7 +24,7 @@ public class DailyWeather {
     private long clouds;
     private double uvi;
     private double pop;
-    private Double rain;
-    private Double snow;
+    private double rain;
+    private double snow;
     private Weather[] weather;
 }
