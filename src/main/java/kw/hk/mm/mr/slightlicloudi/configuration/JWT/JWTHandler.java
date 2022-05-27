@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class JWTHandler {
     @Value("${jwt_secret}")
-    private String secret;
+    private String SECRET;
 
     public String generateToken(String email) throws IllegalArgumentException, JWTCreationException {
         return JWT.create()
@@ -20,11 +20,11 @@ public class JWTHandler {
                 .withClaim("email", email)
                 .withIssuedAt(new Date())
                 .withIssuer("SLIGHTLI_CLOUDI")
-                .sign(Algorithm.HMAC256(secret));
+                .sign(Algorithm.HMAC256(SECRET));
     }
 
     public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET))
                 .withSubject("User Details")
                 .withIssuer("SLIGHTLI_CLOUDI")
                 .build();
