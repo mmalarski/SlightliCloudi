@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH}, exposedHeaders = "Authorization")
 @AllArgsConstructor
 @Slf4j
 public class UserController {
