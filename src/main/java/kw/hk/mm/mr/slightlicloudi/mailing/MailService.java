@@ -23,8 +23,8 @@ public class MailService {
     }
 
     public void sendMessageUsingThymeleafTemplate(
-            String to, String subject, Map<String, Object> templateModel)
-            throws MessagingException {
+            String to, String subject, Map<String, Object> templateModel) throws MessagingException {
+
         Context thymeleafContext = new Context();
         thymeleafContext.setVariables(templateModel);
         String htmlBody = thymeleafTemplateEngine.process("basic-mail-template.html", thymeleafContext);

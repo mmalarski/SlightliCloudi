@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -76,8 +78,13 @@ public class UserController {
     @GetMapping("/send-email")
     public String sendEmail() throws MessagingException {
         Map<String, Object> params = new HashMap<>();
-        params.put("forecastType", "Hourly");
+        List<String> recommendations = new ArrayList<>();
+        recommendations.add("It's going to be a sunny day");
+        recommendations.add("Take a coat");
+        recommendations.add("Take an umbrella");
+        params.put("forecastType", "My own");
         params.put("temperature", "24");
+        params.put("windRecommendations", recommendations);
         mailService.sendMessageUsingThymeleafTemplate("mihau.malarski@gmail.com", "subject", params);
         return "Done! Email sent!";
     }
