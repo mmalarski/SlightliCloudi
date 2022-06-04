@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:text = "'SlightliCloudi ' + ${forecastType} + ' forecast'">
+    <title>SlightliCloudi</title>
+    SlightliCloudi forecast
+</head>
+<body>
+<main>
+    <div>
+        <p> Today's temperature is: </p>
+        <p th:text="${temperature}" > default temperature </p>
+    </div>
+</main>
+</body>
+</html>

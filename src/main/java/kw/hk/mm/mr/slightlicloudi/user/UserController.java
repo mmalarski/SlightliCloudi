@@ -1,6 +1,7 @@
 package kw.hk.mm.mr.slightlicloudi.user;
 
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTHandler;
+import kw.hk.mm.mr.slightlicloudi.mailing.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -21,6 +25,7 @@ public class UserController {
     final AuthenticationManager authenticationManager;
     final JWTHandler tokenHandler;
     final PasswordEncoder passwordEncoder;
+    final MailService mailService;
 
     @GetMapping("/ping")
     public String pong() {
@@ -68,4 +73,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/send-email")
+    public String sendEmail() throws MessagingException {
+        Map<String, Object> params = new HashMap<>();
+        params.put("forecastType", "Hourly");
+        params.put("temperature", "24");
+        mailService.sendMessageUsingThymeleafTemplate("mihau.malarski@gmail.com", "subject", params);
+        return "Done! Email sent!";
+    }
 }
