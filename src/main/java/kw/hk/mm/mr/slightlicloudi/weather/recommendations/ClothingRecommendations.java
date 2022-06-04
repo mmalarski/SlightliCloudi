@@ -1,15 +1,13 @@
 package kw.hk.mm.mr.slightlicloudi.weather.recommendations;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.Weather;
-import kw.hk.mm.mr.slightlicloudi.weather.mapping.WeatherResponse;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WeatherConditions {
+public class ClothingRecommendations {
     Map<String, List<Clothes>> weatherConditionsMap = new HashMap<>();
-    // constructor
-    public WeatherConditions() {
+    public ClothingRecommendations() {
         this.weatherConditionsMap.put("freezing,thunderstorm", List.of(
                 Clothes.THERMAL_CLOTHING,
                 Clothes.WATERPROOF_CLOTHING,
@@ -168,7 +166,7 @@ public class WeatherConditions {
 
     }
 
-    public String getTemperatureDescription(double temperature) {
+    private String getTemperatureDescription(double temperature) {
         if (temperature < -15) {
             return "freezing";
         } else if (temperature < 0) {
@@ -180,7 +178,7 @@ public class WeatherConditions {
         }
     }
 
-    public String getWeatherDescription(Weather weather) {
+    private String getWeatherDescription(Weather weather) {
         if (weather.getId() < 300) {
             return "thunderstorm";
         } else if (weather.getId() < 400) {
@@ -200,8 +198,14 @@ public class WeatherConditions {
         }
     }
 
+    public List<String> getClothingRecommendations(Weather weather, double temperature) {
+        String weatherDescription = getWeatherDescription(weather);
+        String temperatureDescription = getTemperatureDescription(temperature);
 
-
+        return this.weatherConditionsMap.get(temperatureDescription + "," + weatherDescription).stream()
+                .map(Clothes::getClothing)
+                .toList();
+    }
 
 
 }
