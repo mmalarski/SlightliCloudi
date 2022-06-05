@@ -79,13 +79,22 @@ public class UserController {
     public String sendEmail() throws MessagingException {
         Map<String, Object> params = new HashMap<>();
         List<String> recommendations = new ArrayList<>();
+        List<String> temperatures = new ArrayList<>();
         recommendations.add("It's going to be a sunny day");
         recommendations.add("Take a coat");
         recommendations.add("Take an umbrella");
-        params.put("forecastType", "My own");
-        params.put("temperature", "24");
+        temperatures.add("24");
+        temperatures.add("30");
+        temperatures.add("31");
+        temperatures.add("18");
+        temperatures.add("18");
+        temperatures.add("18");
+        temperatures.add("18");
+        params.put("forecastType", "Weekly");
         params.put("windRecommendations", recommendations);
-        mailService.sendMessageUsingThymeleafTemplate("mihau.malarski@gmail.com", "subject", params);
+        params.put("temperatures", temperatures);
+        params.put("temperature", 50);
+        mailService.sendMessageUsingThymeleafTemplate("to@mail.com", "subject","weekly-mail-template.html", params);
         return "Done! Email sent!";
     }
 }
