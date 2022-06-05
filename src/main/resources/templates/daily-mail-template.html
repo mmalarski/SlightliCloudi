@@ -10,7 +10,7 @@
     <div style="padding: 10px;">
         <h1 th:text = "'SlightliCloudi ' + ${forecastType} + ' forecast'">SlightliCloudi forecast</h1>
     </div>
-    <div class="temperature" style=" font-size: 50px; font-weight: bold; padding: 10px;" th:if="${forecastType == 'Daily'}">
+    <div class="temperature" style=" font-size: 50px; font-weight: bold; padding: 10px;">
         <p style="font-weight: bold">Today's temperature:</p>
         <p th:text="${temperature}">20</p>
     </div>
