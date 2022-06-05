@@ -42,6 +42,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -72,14 +76,20 @@
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured-all</artifactId>
-            <version>5.0.1</version>
+            <artifactId>spring-mock-mvc</artifactId>
+            <version>5.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.212</version>
             <scope>test</scope>
         </dependency>
         <dependency>
