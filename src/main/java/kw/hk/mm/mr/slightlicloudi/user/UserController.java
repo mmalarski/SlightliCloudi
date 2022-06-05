@@ -2,6 +2,7 @@ package kw.hk.mm.mr.slightlicloudi.user;
 
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTHandler;
 import kw.hk.mm.mr.slightlicloudi.mailing.MailService;
+import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.MailScheduler;
 import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.WeatherMailSender;
 import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class UserController {
     final MailService mailService;
     final WeatherService weatherService;
     final WeatherMailSender weatherMailSender;
+    final MailScheduler mailScheduler;
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public User getUser(@PathVariable long id) {
@@ -99,7 +101,9 @@ public class UserController {
             UserPreferences userPreferences = user.get().getPreferences();
             newPreferences.setId(userPreferences.getId());
             newPreferences.setUser(userPreferences.getUser());
+            mailScheduler.cancelMailsFromPreferences(userPreferences.getUser().getEmail());
             userPreferencesRepository.delete(userPreferences);
+            mailScheduler.scheduleMailsFromPreferences(newPreferences);
             userPreferencesRepository.save(newPreferences);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {

@@ -3,6 +3,7 @@ package kw.hk.mm.mr.slightlicloudi.configuration;
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTFilter;
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTHandler;
 import kw.hk.mm.mr.slightlicloudi.mailing.MailService;
+import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.MailScheduler;
 import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.WeatherMailSender;
 import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import kw.hk.mm.mr.slightlicloudi.weather.recommendations.WeatherConditions;
@@ -17,6 +18,7 @@ public class BeanRegistry {
             WeatherService.class,
             MailService.class,
             WeatherMailSender.class,
-            WeatherConditions.class
+            WeatherConditions.class,
+            MailScheduler.class
     );
 }
