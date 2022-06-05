@@ -231,8 +231,8 @@ public class WeatherConditions {
         }
     }
 
-    public ClothingRecommendations getClothingRecommendations(DailyWeather dailyWeather) {
-        return this.weatherConditionsMap.get(getWeatherDescription(dailyWeather));
+    public ClothingRecommendations getClothingRecommendations(String weatherDescription) {
+        return this.weatherConditionsMap.get(weatherDescription);
     }
 
     public String getWeatherDescription(DailyWeather dailyWeather) {

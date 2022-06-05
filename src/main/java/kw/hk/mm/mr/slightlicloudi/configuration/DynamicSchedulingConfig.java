@@ -58,7 +58,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 taskRegistrar.addTriggerTask(
                         () -> {
                             try {
-                                weatherMailSender.sendMail(preference, cron.getKey());
+                                weatherMailSender.sendWeatherMail(preference, cron.getKey());
                             } catch (MessagingException e) {
                                 log.error("Error sending mail to " + preference.getUser().getEmail(), e);
                             }

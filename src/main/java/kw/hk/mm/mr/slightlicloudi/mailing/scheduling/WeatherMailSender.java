@@ -5,7 +5,6 @@ import kw.hk.mm.mr.slightlicloudi.mailing.MailType;
 import kw.hk.mm.mr.slightlicloudi.user.UserPreferences;
 import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.DailyWeather;
-import kw.hk.mm.mr.slightlicloudi.weather.mapping.WeatherResponse;
 import kw.hk.mm.mr.slightlicloudi.weather.recommendations.WeatherConditions;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @AllArgsConstructor
@@ -25,20 +25,57 @@ public class WeatherMailSender {
     WeatherService weatherService;
 
 
-    public void sendMail(UserPreferences userPreferences, MailType mailType) throws MessagingException {
-        String templatePath;
-        Map<String, Object> templateModel = new HashMap<>();
-        WeatherResponse weatherResponse = weatherService.getWeather(userPreferences.getLatitude(), userPreferences.getLongitude());
-        List<DailyWeather> weathers = new ArrayList<>();
-        List<Integer> windyDays = new ArrayList<>();
+    public void sendWeatherMail(UserPreferences userPreferences, MailType mailType) throws MessagingException {
+        var templatePath = getTemplateName(mailType);
+        Map<String, Object> templateParams = new HashMap<>();
+        var weatherResponse = weatherService.getWeather(userPreferences.getLatitude(), userPreferences.getLongitude());
+        var weathers = getWeatherSublist(weatherResponse.getDaily(), mailType);
+        var windyDays = getWindyDays(weathers);
+        var daysOfWeek = getDatesFromWeatherList(weathers);
+        var weatherDescriptions = weathers.stream().map(weather -> weatherConditions.getWeatherDescription(weather)).toList();
+        var clothingRecommendations = weatherDescriptions.stream()
+                .map(weatherDescription -> weatherConditions.getClothingRecommendations(weatherDescription)).toList();
+        if (userPreferences.isClothingRecommendation()) {
+            templateParams.put("weatherRecommendations", clothingRecommendations);
+        }
+        templateParams.put("windyDays", windyDays);
+        templateParams.put("weathers", weathers);
+        templateParams.put("weatherDescriptions", weatherDescriptions);
+        templateParams.put("numberOfDays", weathers.size());
+        templateParams.put("daysOfWeek", daysOfWeek);
 
+        mailService.sendMessageUsingThymeleafTemplate(userPreferences.getUser().getEmail(), "Weather Forecast", templatePath, templateParams);
+    }
+
+    private List<LocalDateTime> getDatesFromWeatherList(List<DailyWeather> weathers) {
+        return weathers.stream()
+                .map(weather -> new Timestamp(weather.getDt() * 1000))
+                .map(Timestamp::toLocalDateTime).toList();
+    }
+
+    private List<Boolean> getWindyDays(List<DailyWeather> weathers) {
+        List<Boolean> windyDays = new ArrayList<>();
+        for (DailyWeather weather : weathers) {
+            windyDays.add(weather.getWindSpeed() > WIND_SPEED_THRESHOLD);
+        }
+        return windyDays;
+    }
+
+    private String getTemplateName(MailType mailType) {
+        return switch (mailType) {
+            case DAILY -> "daily-mail-template.html";
+            case WEEKLY -> "weekly-mail-template.html";
+            case WEEKENDS -> "weekendly-mail-template.html";
+        };
+    }
+
+    private List<DailyWeather> getWeatherSublist(DailyWeather[] weathers, MailType mailType) {
+        List<DailyWeather> weatherSublist = new ArrayList<>();
         if (mailType == MailType.DAILY) {
-            weathers.add(weatherResponse.getDaily()[0]);
-            templatePath = "daily-mail-template.html";
+            weatherSublist.add(weathers[0]);
         }
         else if (mailType == MailType.WEEKLY) {
-            Collections.addAll(weathers, weatherResponse.getDaily());
-            templatePath = "weekly-mail-template.html";
+            Collections.addAll(weatherSublist, weathers);
         }
         else {
             var howManyForecasts = switch(LocalDate.now().getDayOfWeek()) {
@@ -46,30 +83,9 @@ public class WeatherMailSender {
                 case SATURDAY -> 2;
                 default -> 1;
             };
-            weathers.addAll(Arrays.asList(weatherResponse.getDaily()).subList(0, howManyForecasts));
-            templatePath = "weekendly-mail-template.html";
+            weatherSublist.addAll(Arrays.asList(weathers).subList(0, howManyForecasts));
         }
-        var daysOfWeek = weathers.stream()
-                .map(weather -> new Timestamp(weather.getDt() * 1000))
-                .map(Timestamp::toLocalDateTime).toList();
-        var clothingRecommendations = weathers.stream()
-                .map(weather -> weatherConditions.getClothingRecommendations(weather)).toList();
-        var weatherDescriptions = weathers.stream().map(weather -> weatherConditions.getWeatherDescription(weather)).toList();
-        for (int i = 0; i < clothingRecommendations.size(); i++) {
-            if (weathers.get(i).getWindSpeed() > WIND_SPEED_THRESHOLD) {
-                windyDays.add(i);
-            }
-        }
-        if (userPreferences.isClothingRecommendation()) {
-            templateModel.put("weatherRecommendations", clothingRecommendations);
-        }
-        templateModel.put("windyDays", windyDays);
-        templateModel.put("weathers", weathers);
-        templateModel.put("weatherDescriptions", weatherDescriptions);
-        templateModel.put("numberOfDays", weathers.size());
-        templateModel.put("daysOfWeek", daysOfWeek);
-
-        mailService.sendMessageUsingThymeleafTemplate(userPreferences.getUser().getEmail(), "Weather Forecast", templatePath, templateModel);
+        return weatherSublist;
     }
 
 

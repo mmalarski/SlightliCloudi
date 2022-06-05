@@ -8,7 +8,7 @@
 <body style="font-family: BlinkMacSystemFont, sans-serif; font-size: 30px; text-align: center;">
 <main>
     <div style="padding: 10px;">
-        <h1>SlightliCloudi weekendly forecast</h1>
+        <h1>SlightliCloudi weekend forecast</h1>
     </div>
     <div class="temperatures" style=" font-size: 50px; font-weight: bold; padding: 10px;">
         <p style="font-weight: bold">Temperatures for the weekend:</p>
@@ -35,8 +35,8 @@
                 <tr style="border: #4e4e4e solid 1px;">
                     <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[i].split(',')[0]}">It's hot</td>
                     <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[i].split(',')[1]}">There's rain</td>
-                    <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${windyDays.contains(i)}">There's strong wind</td>
-                    <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${!windyDays.contains(i)}">There's no wind</td>
+                    <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${windyDays[i]}">There's strong wind</td>
+                    <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${!windyDays[i]}">There's no wind</td>
                 </tr>
             </table>
         </div>
@@ -48,10 +48,10 @@
                 <tr th:each="weatherRecommendation : ${weatherRecommendations[i].clothesList}">
                     <td style="padding: 15px; text-align: left;"><span th:text="${weatherRecommendation}"></span></td>
                 </tr>
-                <tr th:if="${windyDays.contains(i)}">
+                <tr th:if="${windyDays[i]}">
                     <td style="padding: 15px; text-align: left;">Warning! Strong wind, consider this:</td>
                 </tr>
-                <tr th:if="${windyDays.contains(i)}" th:each="windRecommendation : ${weatherRecommendations[i].windyClothesList}">
+                <tr th:if="${windyDays[i]}" th:each="windRecommendation : ${weatherRecommendations[i].windyClothesList}">
                     <td style="padding: 15px; text-align: left;"><span th:text="${windRecommendation}"></span></td>
                 </tr>
             </table>

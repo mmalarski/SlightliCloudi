@@ -24,8 +24,8 @@
             <tr style="border: #4e4e4e solid 1px;">
                 <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[0].split(',')[0]}">It's hot</td>
                 <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[0].split(',')[1]}">There's rain</td>
-                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${windyDays.contains(0)}">There's strong wind</td>
-                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${!windyDays.contains(0)}">There's no wind</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${windyDays[0]}">There's strong wind</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${!windyDays[0]}">There's no wind</td>
             </tr>
         </table>
     </div>
@@ -37,10 +37,10 @@
             <tr th:each="weatherRecommendation : ${weatherRecommendations[0].clothesList}">
                 <td style="padding: 15px; text-align: left;"><span th:text="${weatherRecommendation}"></span></td>
             </tr>
-            <tr th:if="${windyDays.contains(0)}">
+            <tr th:if="${windyDays[0]}">
                 <td style="padding: 15px; text-align: left;">Warning! Strong wind, consider this:</td>
             </tr>
-            <tr th:if="${windyDays.contains(0)}" th:each="windRecommendation : ${weatherRecommendations[0].windyClothesList}">
+            <tr th:if="${windyDays[0]}" th:each="windRecommendation : ${weatherRecommendations[0].windyClothesList}">
                 <td style="padding: 15px; text-align: left;"><span th:text="${windRecommendation}"></span></td>
             </tr>
         </table>
