@@ -8,11 +8,11 @@
 <body style="font-family: BlinkMacSystemFont, sans-serif; font-size: 30px; text-align: center;">
 <main>
     <div style="padding: 10px;">
-        <h1 th:text = "'SlightliCloudi ' + ${forecastType} + ' forecast'">SlightliCloudi forecast</h1>
+        <h1>SlightliCloudi daily forecast</h1>
     </div>
     <div class="temperature" style=" font-size: 50px; font-weight: bold; padding: 10px;">
         <p style="font-weight: bold">Today's temperature:</p>
-        <p th:text="${weathers[0].temp.day}"></p>
+        <p th:text="${#numbers.formatDecimal(weathers[0].temp.day - 272.15, 0, 0) + 'C'}"></p>
     </div>
     <div style="padding: 10px;">
         <table class="weather" style="margin-left: auto; margin-right: auto; border: #4e4e4e solid 1px;">
@@ -22,27 +22,25 @@
                 <th style="border: #4e4e4e solid 1px; padding: 15px;">Wind</th>
             </tr>
             <tr style="border: #4e4e4e solid 1px;">
-                <td style="border: #4e4e4e solid 1px;padding: 15px;">It's hot</td>
-                <td style="border: #4e4e4e solid 1px;padding: 15px;">There's rain</td>
-                <td style="border: #4e4e4e solid 1px;padding: 15px;">There's wind</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[0].split(',')[0]}">It's hot</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:text="${weatherDescriptions[0].split(',')[1]}">There's rain</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${windyDays.contains(0)}">There's strong wind</td>
+                <td style="border: #4e4e4e solid 1px;padding: 15px;" th:if="${!windyDays.contains(0)}">There's no wind</td>
             </tr>
         </table>
     </div>
-    <div style="padding: 10px;">
+    <div style="padding: 10px;" th:if="${weatherRecommendations != null}">
         <table class="recommendations" style="margin-left: auto; margin-right: auto; border: #4e4e4e solid 1px; border-radius: 20px; font-weight: normal; font-size: 75%;">
             <tr>
                 <th style="padding: 15px; text-decoration: underline;">Recommendations</th>
             </tr>
-            <tr th:if="${weatherRecommendations == null}">
-                <td style="padding: 15px; text-align: left;"> No recommendations for this weather </td>
-            </tr>
-            <tr th:each="weatherRecommendation : ${weatherRecommendations}">
+            <tr th:each="weatherRecommendation : ${weatherRecommendations[0].clothesList}">
                 <td style="padding: 15px; text-align: left;"><span th:text="${weatherRecommendation}"></span></td>
             </tr>
-            <tr th:if="${windRecommendations == null}">
-                <td style="padding: 15px; text-align: left;"></td>
+            <tr th:if="${windyDays.contains(0)}">
+                <td style="padding: 15px; text-align: left;">Warning! Strong wind, consider this:</td>
             </tr>
-            <tr th:each="windRecommendation : ${windRecommendations}">
+            <tr th:if="${windyDays.contains(0)}" th:each="windRecommendation : ${weatherRecommendations[0].windyClothesList}">
                 <td style="padding: 15px; text-align: left;"><span th:text="${windRecommendation}"></span></td>
             </tr>
         </table>

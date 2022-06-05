@@ -232,10 +232,13 @@ public class WeatherConditions {
     }
 
     public ClothingRecommendations getClothingRecommendations(DailyWeather dailyWeather) {
+        return this.weatherConditionsMap.get(getWeatherDescription(dailyWeather));
+    }
+
+    public String getWeatherDescription(DailyWeather dailyWeather) {
         String weatherDescription = getWeatherDescription(dailyWeather.getWeather()[0]);
         String temperatureDescription = getTemperatureDescription(dailyWeather.getTemp().getDay());
-
-        return this.weatherConditionsMap.get(temperatureDescription + "," + weatherDescription);
+        return temperatureDescription + "," + weatherDescription;
     }
 
 

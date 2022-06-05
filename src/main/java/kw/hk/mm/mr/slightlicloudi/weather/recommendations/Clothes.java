@@ -1,5 +1,8 @@
 package kw.hk.mm.mr.slightlicloudi.weather.recommendations;
 
+import lombok.Getter;
+
+@Getter
 public enum Clothes {
     THERMAL_CLOTHING("thermal clothing"),
     WOOL_SOCKS("wool socks"),
@@ -42,7 +45,9 @@ public enum Clothes {
         this.clothing = clothing;
     }
 
-    public String getClothing() {
-        return clothing;
+
+    @Override
+    public String toString() {
+        return getClothing();
     }
 }
