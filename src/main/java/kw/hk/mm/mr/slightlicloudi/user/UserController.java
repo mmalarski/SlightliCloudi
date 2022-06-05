@@ -1,6 +1,7 @@
 package kw.hk.mm.mr.slightlicloudi.user;
 
 import kw.hk.mm.mr.slightlicloudi.configuration.JWT.JWTHandler;
+import kw.hk.mm.mr.slightlicloudi.mailing.MailService;
 import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -27,6 +33,7 @@ public class UserController {
     final AuthenticationManager authenticationManager;
     final JWTHandler tokenHandler;
     final PasswordEncoder passwordEncoder;
+    final MailService mailService;
     final WeatherService weatherService;
 
     @GetMapping("/ping")
@@ -109,4 +116,26 @@ public class UserController {
         }
     }
 
+    @GetMapping("/send-email")
+    public String sendEmail() throws MessagingException {
+        Map<String, Object> params = new HashMap<>();
+        List<String> recommendations = new ArrayList<>();
+        List<String> temperatures = new ArrayList<>();
+        recommendations.add("It's going to be a sunny day");
+        recommendations.add("Take a coat");
+        recommendations.add("Take an umbrella");
+        temperatures.add("24");
+        temperatures.add("30");
+        temperatures.add("31");
+        temperatures.add("18");
+        temperatures.add("18");
+        temperatures.add("18");
+        temperatures.add("18");
+        params.put("forecastType", "Weekly");
+        params.put("windRecommendations", recommendations);
+        params.put("temperatures", temperatures);
+        params.put("temperature", 50);
+        mailService.sendMessageUsingThymeleafTemplate("to@mail.com", "subject","weekly-mail-template.html", params);
+        return "Done! Email sent!";
+    }
 }
