@@ -14,14 +14,12 @@ public class WeatherService {
     private String API_KEY;
     WebClient client = WebClient.create();
 
-public void getWeather(String latitude, String longitude){
-    var weatherInfo = client.get()
+public WeatherResponse getWeather(double latitude, double longitude){
+    return client.get()
             .uri("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&appid=" + API_KEY)
             .retrieve()
             .bodyToMono(WeatherResponse.class)
             .block();
-    assert weatherInfo != null;
-    log.info(weatherInfo.toString());
 }
 
 }

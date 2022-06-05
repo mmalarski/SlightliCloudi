@@ -1,4 +1,5 @@
 package kw.hk.mm.mr.slightlicloudi.weather.recommendations;
+import kw.hk.mm.mr.slightlicloudi.weather.mapping.DailyWeather;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.Weather;
 
 import java.util.HashMap;
@@ -230,9 +231,9 @@ public class WeatherConditions {
         }
     }
 
-    public ClothingRecommendations getClothingRecommendations(Weather weather, double temperature) {
-        String weatherDescription = getWeatherDescription(weather);
-        String temperatureDescription = getTemperatureDescription(temperature);
+    public ClothingRecommendations getClothingRecommendations(DailyWeather dailyWeather) {
+        String weatherDescription = getWeatherDescription(dailyWeather.getWeather()[0]);
+        String temperatureDescription = getTemperatureDescription(dailyWeather.getTemp().getDay());
 
         return this.weatherConditionsMap.get(temperatureDescription + "," + weatherDescription);
     }

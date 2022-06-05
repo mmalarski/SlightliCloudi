@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/ping")
     public String pong() {
-        weatherService.getWeather("33.44", "-94.04");
+        weatherService.getWeather(33.44, -94.04);
         return "Pong";
     }
 
