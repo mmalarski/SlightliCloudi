@@ -13,9 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
-// Think if this should extend ThreadPoolTaskScheduler or have it as a field
-// Test if @EnableScheduling is necessary here for it to work
-// Think if we should rename methods or are they fine
 @Slf4j
 @EnableScheduling
 public class MailScheduler extends ThreadPoolTaskScheduler {

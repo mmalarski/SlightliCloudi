@@ -7,11 +7,12 @@ import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.MailScheduler;
 import kw.hk.mm.mr.slightlicloudi.mailing.scheduling.WeatherMailSender;
 import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import kw.hk.mm.mr.slightlicloudi.weather.recommendations.WeatherConditions;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
+@UtilityClass
 public class BeanRegistry {
-    private BeanRegistry() {}
     static List<Class<?>> commonBeans = List.of(
             JWTHandler.class,
             JWTFilter.class,

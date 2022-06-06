@@ -211,7 +211,7 @@ public class WeatherConditions {
         }
     }
 
-    private String getWeatherDescription(Weather weather) {
+    private String getAtmosphereDescriptionFromWeather(Weather weather) {
         if (weather.getId() < 300) {
             return "thunderstorm";
         } else if (weather.getId() < 400) {
@@ -231,12 +231,12 @@ public class WeatherConditions {
         }
     }
 
-    public ClothingRecommendations getClothingRecommendations(String weatherDescription) {
+    public ClothingRecommendations getClothingRecommendationsFromWeatherDescription(String weatherDescription) {
         return this.weatherConditionsMap.get(weatherDescription);
     }
 
-    public String getWeatherDescription(DailyWeather dailyWeather) {
-        String weatherDescription = getWeatherDescription(dailyWeather.getWeather()[0]);
+    public String getWeatherDescriptionFromWeather(DailyWeather dailyWeather) {
+        String weatherDescription = getAtmosphereDescriptionFromWeather(dailyWeather.getWeather()[0]);
         String temperatureDescription = getTemperatureDescription(dailyWeather.getTemp().getDay());
         return temperatureDescription + "," + weatherDescription;
     }

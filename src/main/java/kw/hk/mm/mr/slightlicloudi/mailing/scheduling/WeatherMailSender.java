@@ -7,7 +7,6 @@ import kw.hk.mm.mr.slightlicloudi.weather.WeatherService;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.DailyWeather;
 import kw.hk.mm.mr.slightlicloudi.weather.recommendations.WeatherConditions;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.MessagingException;
 import java.sql.Timestamp;
@@ -16,10 +15,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @AllArgsConstructor
-@Slf4j
 public class WeatherMailSender {
 
-    private static final int WIND_SPEED_THRESHOLD = 10; // speed in m/s
+    private static final int TEN_METERS_PER_SECOND = 10;
     MailService mailService;
     WeatherConditions weatherConditions;
     WeatherService weatherService;
@@ -32,9 +30,9 @@ public class WeatherMailSender {
         var weathers = getWeatherSublist(weatherResponse.getDaily(), mailType);
         var windyDays = getWindyDays(weathers);
         var daysOfWeek = getDatesFromWeatherList(weathers);
-        var weatherDescriptions = weathers.stream().map(weather -> weatherConditions.getWeatherDescription(weather)).toList();
+        var weatherDescriptions = weathers.stream().map(weather -> weatherConditions.getWeatherDescriptionFromWeather(weather)).toList();
         var clothingRecommendations = weatherDescriptions.stream()
-                .map(weatherDescription -> weatherConditions.getClothingRecommendations(weatherDescription)).toList();
+                .map(weatherDescription -> weatherConditions.getClothingRecommendationsFromWeatherDescription(weatherDescription)).toList();
         if (userPreferences.isClothingRecommendation()) {
             templateParams.put("weatherRecommendations", clothingRecommendations);
         }
@@ -56,7 +54,7 @@ public class WeatherMailSender {
     private List<Boolean> getWindyDays(List<DailyWeather> weathers) {
         List<Boolean> windyDays = new ArrayList<>();
         for (DailyWeather weather : weathers) {
-            windyDays.add(weather.getWindSpeed() > WIND_SPEED_THRESHOLD);
+            windyDays.add(weather.getWindSpeed() > TEN_METERS_PER_SECOND);
         }
         return windyDays;
     }
