@@ -1,4 +1,5 @@
 package kw.hk.mm.mr.slightlicloudi.weather.recommendations;
+import kw.hk.mm.mr.slightlicloudi.weather.mapping.DailyWeather;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.Weather;
 
 import java.util.HashMap;
@@ -210,7 +211,7 @@ public class WeatherConditions {
         }
     }
 
-    private String getWeatherDescription(Weather weather) {
+    private String getAtmosphereDescriptionFromWeather(Weather weather) {
         if (weather.getId() < 300) {
             return "thunderstorm";
         } else if (weather.getId() < 400) {
@@ -230,11 +231,14 @@ public class WeatherConditions {
         }
     }
 
-    public ClothingRecommendations getClothingRecommendations(Weather weather, double temperature) {
-        String weatherDescription = getWeatherDescription(weather);
-        String temperatureDescription = getTemperatureDescription(temperature);
+    public ClothingRecommendations getClothingRecommendationsFromWeatherDescription(String weatherDescription) {
+        return this.weatherConditionsMap.get(weatherDescription);
+    }
 
-        return this.weatherConditionsMap.get(temperatureDescription + "," + weatherDescription);
+    public String getWeatherDescriptionFromWeather(DailyWeather dailyWeather) {
+        String weatherDescription = getAtmosphereDescriptionFromWeather(dailyWeather.getWeather()[0]);
+        String temperatureDescription = getTemperatureDescription(dailyWeather.getTemp().getDay());
+        return temperatureDescription + "," + weatherDescription;
     }
 
 

@@ -1,6 +1,6 @@
 package kw.hk.mm.mr.slightlicloudi.mailing;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -11,16 +11,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
 @Service
+@AllArgsConstructor
 public class MailService {
 
     private final JavaMailSender javaMailSender;
-    @Autowired
     private SpringTemplateEngine thymeleafTemplateEngine;
 
-    @Autowired
-    public MailService (JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 
     public void sendMessageUsingThymeleafTemplate(
             String to, String subject, String templatePath, Map<String, Object> templateModel) throws MessagingException {

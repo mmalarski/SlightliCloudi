@@ -33,8 +33,7 @@ public enum Clothes {
     WINTER_SHOES("winter shoes"),
     WINTER_HAT("winter hat"),
     WINTER_GLOVES("winter gloves"),
-    EASTER_EGG("plastic see-through pants")
-    ;
+    EASTER_EGG("plastic see-through pants");
 
     private final String clothing;
 
@@ -42,7 +41,9 @@ public enum Clothes {
         this.clothing = clothing;
     }
 
-    public String getClothing() {
+
+    @Override
+    public String toString() {
         return clothing;
     }
 }

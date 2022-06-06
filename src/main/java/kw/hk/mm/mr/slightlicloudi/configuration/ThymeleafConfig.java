@@ -2,6 +2,7 @@ package kw.hk.mm.mr.slightlicloudi.configuration;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -26,6 +27,7 @@ public class ThymeleafConfig {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
         templateEngine.setEnableSpringELCompiler(true);
+        templateEngine.addDialect(new Java8TimeDialect());
         return templateEngine;
     }
 
