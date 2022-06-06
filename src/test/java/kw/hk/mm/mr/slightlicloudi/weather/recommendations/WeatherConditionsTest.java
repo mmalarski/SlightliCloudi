@@ -4,12 +4,9 @@ import kw.hk.mm.mr.slightlicloudi.configuration.BeanRegistrationContextInitializ
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.DailyWeather;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.Temperature;
 import kw.hk.mm.mr.slightlicloudi.weather.mapping.Weather;
-import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
